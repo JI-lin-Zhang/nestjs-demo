@@ -1,26 +1,40 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEventDto } from './dto/create-event.dto';
-import { UpdateEventDto } from './dto/update-event.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Event } from './entities/event.entity';
 
 @Injectable()
 export class EventsService {
-  create(createEventDto: CreateEventDto) {
-    return 'This action adds a new event';
-  }
+  // 实例化实体
+  constructor(
+    @InjectRepository(Event) private readonly user: Repository<Event>,
+  ) {}
 
-  findAll() {
-    return `This action returns all events`;
+  async findAll() {
+    const data = await this.user.find();
+    if (data) {
+      return {
+        status: 200,
+        msg: 'success to find the data',
+        data,
+      };
+    }
+    return {
+      status: 404,
+      msg: 'not success to find the data',
+    };
   }
 
   findOne(id: number) {
     return `This action returns a #${id} event`;
   }
 
-  update(id: number, updateEventDto: UpdateEventDto) {
-    return `This action updates a #${id} event`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} event`;
-  }
+  // filterSomeOne(dataFilter: IDataFilter) {
+  //   const { year, month } = dateFilter;
+  // let filteredEvents = .filter((event) => {
+  //   const eventDate = new Date(event.date);
+  //   return eventDate.getFullYear() === year && eventDate.getMonth() === month - 1;
+  // });
+  // return filteredEvents;
+  // }
 }

@@ -10,6 +10,8 @@ async function bootstrap() {
   app.enableVersioning({
     type: VersioningType.URI,
   });
+  // 允许跨域
+  app.enableCors();
   await app.listen(9080);
 }
 bootstrap();
