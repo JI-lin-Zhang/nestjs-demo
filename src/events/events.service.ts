@@ -25,18 +25,20 @@ export class EventsService {
     };
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const data = await this.user.find({
       where: {
         // 模糊查询
         eid: Like(`%${id}%`),
       },
     });
-    return {
-      status: 200,
-      msg: 'success to find the data',
-      data,
-    };
+    if (data) {
+      return {
+        status: 200,
+        msg: 'success to find the data',
+        data,
+      };
+    }
   }
 
   async filterSomeOne(@Query() query) {
