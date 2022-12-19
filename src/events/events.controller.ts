@@ -17,4 +17,9 @@ export class EventsController {
   findOne(@Param('id') id: string) {
     return this.eventsService.findOne(+id);
   }
+
+  @Get(':year/:month')
+  filterSomeOne(@Param('year') year: string, @Param('month') month: string) {
+    return this.eventsService.filterSomeOne({ year, month });
+  }
 }

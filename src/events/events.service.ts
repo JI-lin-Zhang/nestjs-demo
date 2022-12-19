@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Query } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { Event } from './entities/event.entity';
 
 @Injectable()
@@ -25,16 +25,34 @@ export class EventsService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} event`;
+  async findOne(id: number) {
+    const data = await this.user.find({
+      where: {
+        // 模糊查询
+        eid: Like(`%${id}%`),
+      },
+    });
+    return {
+      status: 200,
+      msg: 'success to find the data',
+      data,
+    };
   }
 
-  // filterSomeOne(dataFilter: IDataFilter) {
-  //   const { year, month } = dateFilter;
-  // let filteredEvents = .filter((event) => {
-  //   const eventDate = new Date(event.date);
-  //   return eventDate.getFullYear() === year && eventDate.getMonth() === month - 1;
-  // });
-  // return filteredEvents;
-  // }
+  async filterSomeOne(@Query() query) {
+    const { year, month } = query;
+    const months = month < 10 ? `0${month}` : month;
+    const data = await this.user.find({
+      where: {
+        // 模糊查询
+        date: Like(`%${year}-${months}%`),
+      },
+    });
+
+    return {
+      status: 200,
+      msg: 'success to find the data',
+      data,
+    };
+  }
 }
