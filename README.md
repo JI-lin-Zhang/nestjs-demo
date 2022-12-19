@@ -73,7 +73,7 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 Nest is [MIT licensed](LICENSE).
 
 ## database data
-<p align="center">
+```base
 const DUMMY_EVENTS = [
   {
     id: 'e1',
@@ -131,4 +131,4 @@ export function getFilteredEvents (dateFilter: IDataFilter) {
 export function getEventById (id: string) {
   return DUMMY_EVENTS.find((event) => event.id === id);
 }
-</p>
+```
